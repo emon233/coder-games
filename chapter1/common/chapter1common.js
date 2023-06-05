@@ -70,24 +70,21 @@ for(let i=0; i<(groundCubeNumber - 2); i++) {
     const row = [];
     for(let j=0; j<4; j++) {
         if(((i%2) == 0 && (j%2) == 0) || (i%2) == 1 && (j%2) == 1) {
-            // groundXTexture.then((resolvedTexture) => {
-            //     const groundX = PIXI.Sprite.from(resolvedTexture);
-            //     groundX.width = groundCubeWidth;
-            //     groundX.height = groundCubeWidth;
-            //     groundX.x = groundCubePrefix + (groundX.width + 2) * i;
-            //     groundX.y = 0 + (groundX.height + 2) * j;
-            //     containerField.addChild(groundX);
-            // });
+            const groundX = new PIXI.Sprite(groundXTexture);
+            groundX.height = groundCubeWidth;
+            groundX.width = groundCubeWidth;
+            groundX.x = groundCubePrefix + (groundX.width + 2) * i;
+            groundX.y = 0 + (groundX.height + 2) * j;
+            containerField.addChild(groundX);
         } else {
-            // groundYTexture.then((resolvedTexture) => {
-            //     const groundY = PIXI.Sprite.from(resolvedTexture);
-            //     groundY.width = groundCubeWidth;
-            //     groundY.height = groundCubeWidth;
-            //     groundY.x = groundCubePrefix + (groundY.width + 2) * i;
-            //     groundY.y = 0 + (groundY.height + 2) * j;
-            //     containerField.addChild(groundY);
-            // });
+            const groundY = new PIXI.Sprite(groundYTexture);
+            groundY.width = groundCubeWidth;
+            groundY.height = groundCubeWidth;
+            groundY.x = groundCubePrefix + (groundY.width + 2) * i;
+            groundY.y = 0 + (groundY.height + 2) * j;
+            containerField.addChild(groundY);
         }
+
         const coordinates = {
             x: groundCubePrefix + (groundCubeWidth + 2) * i + groundCubeWidth / 2,
             y: (groundCubeWidth + 2) * j + groundCubeWidth / 2
@@ -108,7 +105,20 @@ let ballPositionYi = 0;
 let ballPositionYj = 0;
 
 let ballPositionX = groundCoordinatesArray[ballPositionXi][ballPositionXj].x;
-let ballPositionY = groundCoordinatesArray[ballPositionYi][ballPositionYj].y;
+let ballPositionY = groundCoordinatesArray[ballPositionXi][ballPositionXj].y;
+
+let goalpostPositionX = groundCoordinatesArray[ballPositionXi][ballPositionXj].x;
+let goalpostPositionY = groundCoordinatesArray[ballPositionXi][ballPositionXj].y;
+
+
+const goalpostTexture = PIXI.Texture.from("../assets/goal-post.png");
+const goalpost = new PIXI.Sprite(goalpostTexture);
+goalpost.width = groundCubeWidth;
+goalpost.height = groundCubeWidth;
+goalpost.anchor.set(0.5);
+goalpost.position.set(goalpostPositionX, goalpostPositionY);
+
+containerField.addChild(goalpost);
 
 const ballTexture = PIXI.Texture.from("../assets/ball.png");
 const ball = new PIXI.Sprite(ballTexture);
@@ -119,6 +129,7 @@ ball.eventMode = 'static';
 ball.anchor.set(0.5);
 ball.position.set(ballPositionX, ballPositionY);
 containerField.addChild(ball);
+
 
 const onKeyDown = (e) => {
     if (e.keyCode === 37) {
@@ -156,7 +167,6 @@ const moveBall = (direction) => {
     }
 
     if(ballPositionXi < 0 || ballPositionXi >= (groundCubeNumber - 2) || ballPositionYj < 0 || ballPositionYj >= 4) {
-        console.log("End of Line");
         ballPositionXi = prevBallPositionXi;
         ballPositionYj = prevBallPositionYj;
     }
@@ -167,21 +177,4 @@ const moveBall = (direction) => {
     ball.position.set(ballPositionX, ballPositionY);
 }
 
-/** Test Code */
-const graphics = new PIXI.Graphics();
 
-for (let i = 0; i < (groundCubeNumber - 2); i++) {
-    for (let j = 0; j < 4; j++) {
-        const dotSize = 4;
-
-        const { x, y } = groundCoordinatesArray[i][j];
-        
-        graphics.beginFill(0xFF0000);
-        graphics.drawCircle(x, y, dotSize);
-        graphics.endFill();
-    }
-}
-
-containerField.addChild(graphics);
-
-/** End Test Code */

@@ -6,4 +6,8 @@ ballPositionYj = 3;
 ballPositionX = groundCoordinatesArray[ballPositionXi][ballPositionXj].x;
 ballPositionY = groundCoordinatesArray[ballPositionYi][ballPositionYj].y;
 
+goalpostPositionX = groundCoordinatesArray[ballPositionXi+1][ballPositionXj].x;
+goalpostPositionY = groundCoordinatesArray[ballPositionXi][ballPositionXj].y;
+
 ball.position.set(ballPositionX, ballPositionY);
+goalpost.position.set(goalpostPositionX, goalpostPositionY);
