@@ -14,6 +14,8 @@ const containerFieldPositionY = Math.floor(appHeight * 1/3);
 const containerBottomPositionX = 0;
 const containerBottomPositionY = containerFieldPositionY + 400;
 
+let isGameOver = false;
+
 const app = new Application({
     width: 250,
     height: 250,
@@ -26,22 +28,6 @@ app.renderer.resize(appWidth, appHeight);
 app.renderer.view.style.position = 'absolute';
 document.getElementById('canvas').appendChild(app.view);
 
-// const container = new PIXI.Container();
-// container.position.set(0,0);
-// app.stage.addChild(container);
-
-
-// const backgroundTexturePromise = PIXI.Assets.load('../assets/level1/background.jpg');
-
-// backgroundTexturePromise.then((resolvedTexture) => {
-//     const background = PIXI.Sprite.from(resolvedTexture);
-//     background.x = 0;
-//     background.y = 0;
-//     background.width = app.screen.width;
-//     background.height = app.screen.height;
-//     app.stage. (background);
-// })
-
 const containerTop = new Container();
 containerTop.position.set(containerTopPositionX, containerTopPositionY);
 app.stage.addChild(containerTop);
@@ -53,9 +39,6 @@ app.stage.addChild(containerField);
 const containerBottom = new Container();
 containerBottom.position.set(containerBottomPositionX, containerBottomPositionY);
 app.stage.addChild(containerBottom);
-
-// const groundXTexture = PIXI.Assets.load('../assets/vertical.png');
-// const groundYTexture = PIXI.Assets.load('../assets/horizontal.png');
 
 const groundXTexture = PIXI.Texture.from('../assets/vertical.png');
 const groundYTexture = PIXI.Texture.from('../assets/horizontal.png');
@@ -130,20 +113,21 @@ ball.anchor.set(0.5);
 ball.position.set(ballPositionX, ballPositionY);
 containerField.addChild(ball);
 
-
 const onKeyDown = (e) => {
-    if (e.keyCode === 37) {
-        // Left arrow key
-        moveBall("Left");
-    } else if (e.keyCode === 39) {
-        // Right arrow key
-        moveBall("Right");
-    } else if (e.keyCode === 38) {
-        // Up arrow key
-        moveBall("Up");
-    } else if (e.keyCode === 40) {
-        // Down arrow key
-        moveBall("Down");
+    if(!isGameOver) {
+        if (e.keyCode === 37) {
+            // Left arrow key
+            moveBall("Left");
+        } else if (e.keyCode === 39) {
+            // Right arrow key
+            moveBall("Right");
+        } else if (e.keyCode === 38) {
+            // Up arrow key
+            moveBall("Up");
+        } else if (e.keyCode === 40) {
+            // Down arrow key
+            moveBall("Down");
+        }
     }
 }
 
@@ -175,6 +159,23 @@ const moveBall = (direction) => {
     ballPositionY = groundCoordinatesArray[ballPositionYi][ballPositionYj].y;
 
     ball.position.set(ballPositionX, ballPositionY);
+    checkBallPosition();
 }
 
+const checkBallPosition = () => {
+    if(ball.position.x == goalpost.position.x && ball.position.y == goalpost.position.y) {
+        gameover();
+    }
+}
 
+const gameover = () => {
+    console.log("Game Over");
+    const gameoverTexture = PIXI.Texture.from("../assets/game-over.png");
+    const gameoverSprite = new PIXI.Sprite(gameoverTexture);
+    gameoverSprite.anchor.set(0.5);
+    gameoverSprite.position.x = containerField.width/2;
+    gameoverSprite.position.y = containerField.height/2;
+    gameoverSprite.scale.set(0.75);
+    containerField.addChild(gameoverSprite);
+    isGameOver = true;
+}
