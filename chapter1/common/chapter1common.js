@@ -3,7 +3,7 @@ const Container = PIXI.Container;
 const Graphics = PIXI.Graphics;
 
 const appWidth = window.innerWidth;
-const appHeight = window.innerHeight * 2/3;
+const appHeight = window.innerHeight;
 
 const containerTopPositionX = 0;
 const containerTopPositionY = 0;
@@ -18,7 +18,7 @@ let isGameOver = false;
 
 const app = new Application({
     width: 250,
-    height: 250,
+    height: 350,
     transparent: false,
     antialias: true
 });
@@ -113,26 +113,26 @@ ball.anchor.set(0.5);
 ball.position.set(ballPositionX, ballPositionY);
 containerField.addChild(ball);
 
-const onKeyDown = (e) => {
+const nextMove = (e) => {
     if(!isGameOver) {
-        if (e.keyCode === 37) {
-            // Left arrow key
-            moveBall("Left");
-        } else if (e.keyCode === 39) {
-            // Right arrow key
-            moveBall("Right");
-        } else if (e.keyCode === 38) {
-            // Up arrow key
-            moveBall("Up");
-        } else if (e.keyCode === 40) {
-            // Down arrow key
-            moveBall("Down");
-        }
+        moveBall(e);
     }
 }
 
-window.addEventListener('keydown', onKeyDown);
-
+/**
+ * Direction Map
+ * 
+ * 0 none
+ * 1 bottom-left
+ * 2 bottom
+ * 3 bottom-right
+ * 4 left
+ * 5 none
+ * 6 right
+ * 7 top-left
+ * 8 top
+ * 9 top-right
+ */
 
 const moveBall = (direction) => {
     prevBallPositionXi = ballPositionXi;
@@ -140,13 +140,13 @@ const moveBall = (direction) => {
     prevBallPositionYi = ballPositionYi;
     prevBallPositionYj = ballPositionYj;
 
-    if(direction == "Left") {
+    if(direction == 4) {
         ballPositionXi = ballPositionXi - 1;
-    } else if(direction == "Right") {
+    } else if(direction == 6) {
         ballPositionXi = ballPositionXi + 1;
-    } else if(direction == "Up") {
+    } else if(direction == 8) {
         ballPositionYj = ballPositionYj - 1;
-    } else if(direction == "Down") {
+    } else if(direction == 2) {
         ballPositionYj = ballPositionYj + 1;
     }
 
