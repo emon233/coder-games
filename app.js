@@ -46,7 +46,7 @@ buttonContainer01.addChild(buttonText01);
 
 /** Try Dynamic Button Coding */
 
-const numberOfButtons = 1;
+const numberOfButtons = 2;
 let buttonContainerArray = [];
 let buttonLevelArray = [];
 let buttonTextArray = [];

@@ -111,7 +111,7 @@ const gameover = () => {
 const loadGameoverWindow = async () => {
     app.stage.addChild(containerGameoverBackground);
     const _colorContainerGameoverBackground = 0xAADDFF;
-    containerGameoverBackgroundGraphics.beginFill(_colorContainerGameoverBackground, 0.25)
+    containerGameoverBackgroundGraphics.beginFill(_colorContainerGameoverBackground, 0.5)
         .drawRect(0, 0, app.screen.width, app.screen.height)
         .endFill();
 
@@ -119,7 +119,7 @@ const loadGameoverWindow = async () => {
     containerGameoverBackground.addChild(containerGameoverWindow);
 
     containerGameoverWindow.position.set(appWidth/4, appHeight/4);
-    gameoverWindow.beginFill(0XDDFFAA)
+    gameoverWindow.beginFill(0XDDFFAA, 1)
         .drawRect(0, 0, appWidth/2, appHeight/2)
         .endFill();
 
